@@ -1,0 +1,20 @@
+{% spaceless %}
+<script>
+Vue.component('form-{{ tag_name }}', {
+mixins: [mixin],
+    data(){return{
+            action: '{{ action }}',
+            fields: {{% for f in form %}
+            '{{ f.name }}': {
+                'label': '{{ f.label_tag|slice:':-1' }}',
+                'value': '{% if f.initial != None %}{{ f.initial }}{% endif %}',
+                'errors': [],
+                'attrs': {'name': '{{ f.name }}', 'type': '{{ f.field.widget.input_type }}', {% for k, v in f.field.widget.attrs.items %}'{{ k }}': '{{ v }}',{% endfor %}},
+                'choices': {% if f.field.widget.input_type == 'select'  %}{{ f.field.widget.choices|safe }}{% else %}[],{% endif %}
+            },
+            {% endfor %}},
+    }}
+});
+{% endspaceless %}
+</script>
+
