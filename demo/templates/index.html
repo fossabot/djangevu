@@ -1,0 +1,40 @@
+{% load vue_form %}
+{% load static %}
+<html>
+
+<head>
+
+    <script src="{% static "materialize.js" %}"></script>
+    <link rel="stylesheet" href="{% static "materialize.css" %}">
+    <link rel="stylesheet" href="{% static "forms.css" %}">
+    <!--required -->
+    <script src="{% static "vue.js" %}"></script>
+    <script src="{% static "formmixin.js" %}"></script>
+</head>
+
+<body>
+<div class="container form-wrapper">
+
+<form-basic-form
+        autocomplete="off"
+        csrftoken="{{ csrf_token }}"
+        method="post"
+        autoreload=true
+        successredirect={{ request.META.PATH_INFO }}>
+</form-basic-form>
+
+
+{% vue_form 'basic-form' %}
+<script>new Vue({el: 'form-basic-form'}); M.AutoInit();</script>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+</div>
+</body>
+</html>
